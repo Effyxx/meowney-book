@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>手绘风字体 Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Liu+Jian+Mao+Cao&family=Long+Cang&family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@500;700;900&family=Noto+Serif+SC:wght@700;900&family=ZCOOL+KuaiLe&family=ZCOOL+QingKe+HuangYou&family=ZCOOL+XiaoWei&family=Zhi+Mang+Xing&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        color: #352f2a;
+        background:
+          linear-gradient(rgba(255, 255, 255, 0.74), rgba(255, 255, 255, 0.74)),
+          repeating-linear-gradient(
+            0deg,
+            transparent 0,
+            transparent 31px,
+            rgba(124, 102, 75, 0.08) 32px
+          ),
+          #fbf7ed;
+      }
+
+      .app {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 32px 0 40px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 24px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(34px, 6vw, 64px);
+        line-height: 1;
+        font-weight: 800;
+        letter-spacing: 0;
+      }
+
+      .subtitle {
+        max-width: 600px;
+        margin: 12px 0 0;
+        color: #6f6256;
+        font-size: 15px;
+        line-height: 1.7;
+      }
+
+      .link {
+        color: #8f5b13;
+        font-weight: 800;
+        text-decoration: none;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .rough-box {
+        position: relative;
+        isolation: isolate;
+      }
+
+      .rough-box > svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      .sample {
+        min-height: 230px;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 18px;
+      }
+
+      .font-name {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 800;
+        color: #6b5c4f;
+      }
+
+      .headline {
+        margin: 0;
+        color: #352f2a;
+        font-size: 34px;
+        line-height: 1.12;
+        letter-spacing: 0;
+      }
+
+      .amount {
+        margin: 8px 0 0;
+        color: #8f5b13;
+        font-size: 40px;
+        line-height: 1;
+      }
+
+      .desc {
+        margin: 0;
+        color: #6b5c4f;
+        font-size: 14px;
+        line-height: 1.55;
+      }
+
+      .system {
+        font-family:
+          "Comic Sans MS", "Marker Felt", "Segoe Print", cursive, sans-serif;
+      }
+
+      .zcool-kuaile {
+        font-family: "ZCOOL KuaiLe", system-ui, sans-serif;
+      }
+
+      .zcool-qingke {
+        font-family: "ZCOOL QingKe HuangYou", system-ui, sans-serif;
+      }
+
+      .ma-shan {
+        font-family: "Ma Shan Zheng", cursive;
+      }
+
+      .long-cang {
+        font-family: "Long Cang", cursive;
+      }
+
+      .zhi-mang {
+        font-family: "Zhi Mang Xing", cursive;
+      }
+
+      .liu-jian {
+        font-family: "Liu Jian Mao Cao", cursive;
+      }
+
+      .zcool-xiaowei {
+        font-family: "ZCOOL XiaoWei", serif;
+      }
+
+      .noto-sans {
+        font-family: "Noto Sans SC", system-ui, sans-serif;
+        font-weight: 900;
+      }
+
+      .noto-serif {
+        font-family: "Noto Serif SC", serif;
+        font-weight: 900;
+      }
+
+      .rounded-system {
+        font-family:
+          "Segoe UI Rounded", "Arial Rounded MT Bold", "Microsoft YaHei",
+          system-ui, sans-serif;
+        font-weight: 800;
+      }
+
+      .yahei {
+        font-family:
+          "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", system-ui,
+          sans-serif;
+        font-weight: 800;
+      }
+
+      .kaiti {
+        font-family:
+          KaiTi, STKaiti, "Kaiti SC", "楷体", "Microsoft YaHei", serif;
+      }
+
+      .songti {
+        font-family:
+          SimSun, STSong, "Songti SC", "宋体", "Noto Serif SC", serif;
+        font-weight: 700;
+      }
+
+      .fangsong {
+        font-family:
+          FangSong, STFangsong, "FangSong_GB2312", "仿宋", "Noto Serif SC",
+          serif;
+      }
+
+      .heiti {
+        font-family:
+          SimHei, "黑体", "Microsoft YaHei", "Noto Sans SC", system-ui,
+          sans-serif;
+        font-weight: 800;
+      }
+
+      .pingfang {
+        font-family:
+          "PingFang SC", "Hiragino Sans GB", "Noto Sans SC",
+          "Microsoft YaHei", system-ui, sans-serif;
+        font-weight: 800;
+      }
+
+      .hand-mix {
+        font-family:
+          "ZCOOL KuaiLe", "Comic Sans MS", "Segoe Print", system-ui,
+          sans-serif;
+      }
+
+      .mixed-title {
+        font-family: "ZCOOL KuaiLe", system-ui, sans-serif;
+      }
+
+      .mixed-amount {
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        font-weight: 850;
+      }
+
+      .note {
+        margin-top: 18px;
+        padding: 18px 20px;
+        color: #6b5c4f;
+        line-height: 1.7;
+      }
+
+      @media (max-width: 920px) {
+        .grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 640px) {
+        .topbar {
+          align-items: start;
+          flex-direction: column;
+        }
+
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="app">
+      <header class="topbar">
+        <div>
+          <h1 class="zcool-kuaile">字体风格 Demo</h1>
+          <p class="subtitle">
+            每个框用同一套 Rough.js 手绘边框，只换字体。正式 App
+            建议标题用手绘字体，正文和金额保留清晰系统字体。
+          </p>
+        </div>
+        <a class="link" href="./index.html">看边框 Demo</a>
+      </header>
+
+      <section class="grid" aria-label="手绘字体样本">
+        <article class="sample rough-box" data-rough="font-1">
+          <p class="font-name">ZCOOL KuaiLe / 站酷快乐体</p>
+          <div class="zcool-kuaile">
+            <p class="headline">本月结余</p>
+            <p class="amount">￥2,618</p>
+          </div>
+          <p class="desc">圆、松、可爱，最适合生活类和记账 App 标题。</p>
+        </article>
+
+        <article class="sample rough-box" data-rough="font-2">
+          <p class="font-name">ZCOOL QingKe HuangYou / 站酷庆科黄油体</p>
+          <div class="zcool-qingke">
+            <p class="headline">支出分类</p>
+            <p class="amount">42%</p>
+          </div>
+          <p class="desc">更窄、更复古，适合标签、按钮、数据标题。</p>
+        </article>
+
+        <article class="sample rough-box" data-rough="font-3">
+          <p class="font-name">Ma Shan Zheng / 马善政毛笔楷书</p>
+          <div class="ma-shan">
+            <p class="headline">最近流水</p>
+            <p class="amount">四笔</p>
+          </div>
+          <p class="desc">书法感明显，适合少量装饰，不适合密集 UI。</p>
+        </article>
+
+        <article class="sample rough-box" data-rough="font-4">
+          <p class="font-name">Long Cang / 龙藏体</p>
+          <div class="long-cang">
+            <p class="headline">预算提醒</p>
+            <p class="amount">还剩七天</p>
+          </div>
+          <p class="desc">更潦草、更随性，适合情绪化提示或插画旁文案。</p>
+        </article>
+
+        <article class="sample rough-box" data-rough="font-5">
+          <p class="font-name">系统手写备选</p>
+          <div class="system">
+            <p class="headline">今日账本</p>
+            <p class="amount">Done</p>
+          </div>
+          <p class="desc">无需加载网络字体，但不同系统显示差异会很大。</p>
+        </article>
+
+        <article class="sample rough-box" data-rough="font-6">
+          <p class="font-name">推荐混排</p>
+          <div>
+            <p class="headline mixed-title">本月结余</p>
+            <p class="amount mixed-amount">￥2,618.00</p>
+          </div>
+          <p class="desc">标题手绘，金额和正文用清晰字体，实际产品里最稳。</p>
+        </article>
+
+        <article class="sample rough-box" data-rough="font-7">
+          <p class="font-name">Zhi Mang Xing / 志莽行书</p>
+          <div class="zhi-mang">
+            <p class="headline">随手记账</p>
+            <p class="amount">今天花了</p>
+          </div>
+          <p class="desc">行书感强，适合贴纸、插画旁短句，不适合数字。</p>
+        </article>
+
+        <article class="sample rough-box" data-rough="font-8">
+          <p class="font-name">ZCOOL XiaoWei / 站酷小薇</p>
+          <div class="zcool-xiaowei">
+            <p class="headline">账本封面</p>
+            <p class="amount">六月</p>
+          </div>
+          <p class="desc">复古、有设计感，手绘感弱一些，但很适合标题。</p>
+        </article>
+
+        <article class="sample rough-box" data-rough="font-9">
+          <p class="font-name">Noto Serif SC / 思源宋体风格</p>
+          <div class="noto-serif">
+            <p class="headline">年度预算</p>
+            <p class="amount">2026</p>
+          </div>
+          <p class="desc">不是手写体，但和手绘框搭配会更成熟、更稳。</p>
+        </article>
+
+        <article class="sample rough-box" data-rough="font-10">
+          <p class="font-name">系统圆体</p>
+          <div class="rounded-system">
+            <p class="headline">可爱账单</p>
+            <p class="amount">￥128</p>
+          </div>
+          <p class="desc">圆润但不夸张，适合按钮、标签、卡片标题。</p>
+        </article>
+
+        <article class="sample rough-box" data-rough="font-11">
+          <p class="font-name">微软雅黑粗体</p>
+          <div class="yahei">
+            <p class="headline">清晰信息</p>
+            <p class="amount">￥3,622</p>
+          </div>
+          <p class="desc">作为正文和金额很稳，和手绘标题混排效果好。</p>
+        </article>
+
+        <article class="sample rough-box" data-rough="font-12">
+          <p class="font-name">系统楷体</p>
+          <div class="kaiti">
+            <p class="headline">手账备注</p>
+            <p class="amount">少喝奶茶</p>
+          </div>
+          <p class="desc">有手写气质，但不同系统差异较大，谨慎用于正式 UI。</p>
+        </article>
+
+        <article class="sample rough-box" data-rough="font-13">
+          <p class="font-name">系统宋体</p>
+          <div class="songti">
+            <p class="headline">收支明细</p>
+            <p class="amount">明细表</p>
+          </div>
+          <p class="desc">和手绘框形成反差，适合偏文艺、账本封面方向。</p>
+        </article>
+
+        <article class="sample rough-box" data-rough="font-14">
+          <p class="font-name">快乐体 + 系统数字</p>
+          <div>
+            <p class="headline zcool-kuaile">预算还剩</p>
+            <p class="amount mixed-amount">42%</p>
+          </div>
+          <p class="desc">标题有手绘感，数字保持专业清晰，推荐给财务信息。</p>
+        </article>
+
+        <article class="sample rough-box" data-rough="font-15">
+          <p class="font-name">黄油体 + 系统数字</p>
+          <div>
+            <p class="headline zcool-qingke">最近流水</p>
+            <p class="amount mixed-amount">12 笔</p>
+          </div>
+          <p class="desc">更紧凑，适合侧栏、筛选项、工具按钮。</p>
+        </article>
+
+        <article class="sample rough-box" data-rough="font-16">
+          <p class="font-name">Liu Jian Mao Cao / 刘建毛草</p>
+          <div class="liu-jian">
+            <p class="headline">手写便签</p>
+            <p class="amount">记一笔</p>
+          </div>
+          <p class="desc">草写感很强，适合装饰短句，不适合金额和长正文。</p>
+        </article>
+
+        <article class="sample rough-box" data-rough="font-17">
+          <p class="font-name">Noto Sans SC / 思源黑体风格</p>
+          <div class="noto-sans">
+            <p class="headline">预算中心</p>
+            <p class="amount">￥9,800</p>
+          </div>
+          <p class="desc">不是手写，但和手绘框搭配很干净，适合正式产品。</p>
+        </article>
+
+        <article class="sample rough-box" data-rough="font-18">
+          <p class="font-name">PingFang SC 字体栈</p>
+          <div class="pingfang">
+            <p class="headline">账户总览</p>
+            <p class="amount">￥18,240</p>
+          </div>
+          <p class="desc">iOS/macOS 上观感好，适合作为中文 UI 正文字体。</p>
+        </article>
+
+        <article class="sample rough-box" data-rough="font-19">
+          <p class="font-name">黑体字重版</p>
+          <div class="heiti">
+            <p class="headline">收支统计</p>
+            <p class="amount">68%</p>
+          </div>
+          <p class="desc">粗黑体和手绘框反差强，适合数据标题和导航。</p>
+        </article>
+
+        <article class="sample rough-box" data-rough="font-20">
+          <p class="font-name">仿宋</p>
+          <div class="fangsong">
+            <p class="headline">账本小记</p>
+            <p class="amount">六月五日</p>
+          </div>
+          <p class="desc">文档感、手账感更强，适合备注和账本封面。</p>
+        </article>
+
+        <article class="sample rough-box" data-rough="font-21">
+          <p class="font-name">小薇体 + 系统数字</p>
+          <div>
+            <p class="headline zcool-xiaowei">年度账本</p>
+            <p class="amount mixed-amount">2026</p>
+          </div>
+          <p class="desc">标题复古，数字清晰，适合封面、报表页标题。</p>
+        </article>
+
+        <article class="sample rough-box" data-rough="font-22">
+          <p class="font-name">毛笔标题 + 系统正文</p>
+          <div>
+            <p class="headline ma-shan">省钱计划</p>
+            <p class="amount mixed-amount">目标 ￥20,000</p>
+          </div>
+          <p class="desc">用少量书法标题制造个性，避免整页都难读。</p>
+        </article>
+
+        <article class="sample rough-box" data-rough="font-23">
+          <p class="font-name">草写标题 + 系统数字</p>
+          <div>
+            <p class="headline zhi-mang">今日花销</p>
+            <p class="amount mixed-amount">￥126.50</p>
+          </div>
+          <p class="desc">情绪更强，但金额保持系统字体，读数不受影响。</p>
+        </article>
+
+        <article class="sample rough-box" data-rough="font-24">
+          <p class="font-name">手绘字体回退栈</p>
+          <div class="hand-mix">
+            <p class="headline">待报销</p>
+            <p class="amount">3 张票</p>
+          </div>
+          <p class="desc">适合工程兜底：网络字体失败时仍有接近的气质。</p>
+        </article>
+      </section>
+
+      <section class="note rough-box" data-rough="note">
+        猫啃什锦黑也很适合这个风格，但需要下载字体文件后用
+        @font-face 引入；这个页面先展示可通过 Google Fonts 直接加载的字体。
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/roughjs@4.6.6/bundled/rough.min.js"></script>
+    <script>
+      function roundedRectPath(x, y, width, height, radius) {
+        const r = Math.min(radius, width / 2, height / 2);
+        return [
+          `M ${x + r} ${y}`,
+          `L ${x + width - r} ${y}`,
+          `Q ${x + width} ${y} ${x + width} ${y + r}`,
+          `L ${x + width} ${y + height - r}`,
+          `Q ${x + width} ${y + height} ${x + width - r} ${y + height}`,
+          `L ${x + r} ${y + height}`,
+          `Q ${x} ${y + height} ${x} ${y + height - r}`,
+          `L ${x} ${y + r}`,
+          `Q ${x} ${y} ${x + r} ${y}`,
+          "Z",
+        ].join(" ");
+      }
+
+      const styles = {
+        "font-1": { seed: 31, stroke: "#b98539", fill: "rgba(255, 250, 235, 0.76)" },
+        "font-2": { seed: 32, stroke: "#c89955", fill: "rgba(255, 253, 247, 0.86)" },
+        "font-3": { seed: 33, stroke: "#9b651e", fill: "rgba(255, 246, 214, 0.66)" },
+        "font-4": { seed: 34, stroke: "#ad7427", fill: "rgba(255, 244, 205, 0.62)" },
+        "font-5": { seed: 35, stroke: "#8f6c3b", fill: "rgba(255, 253, 247, 0.82)" },
+        "font-6": { seed: 36, stroke: "#b98539", fill: "rgba(255, 250, 235, 0.76)" },
+        "font-7": { seed: 37, stroke: "#ad7427", fill: "rgba(255, 244, 205, 0.62)" },
+        "font-8": { seed: 38, stroke: "#8f6c3b", fill: "rgba(255, 253, 247, 0.82)" },
+        "font-9": { seed: 39, stroke: "#b98539", fill: "rgba(255, 250, 235, 0.76)" },
+        "font-10": { seed: 40, stroke: "#c89955", fill: "rgba(255, 253, 247, 0.86)" },
+        "font-11": { seed: 41, stroke: "#9b651e", fill: "rgba(255, 246, 214, 0.66)" },
+        "font-12": { seed: 42, stroke: "#ad7427", fill: "rgba(255, 244, 205, 0.62)" },
+        "font-13": { seed: 43, stroke: "#8f6c3b", fill: "rgba(255, 253, 247, 0.82)" },
+        "font-14": { seed: 44, stroke: "#b98539", fill: "rgba(255, 250, 235, 0.76)" },
+        "font-15": { seed: 45, stroke: "#c89955", fill: "rgba(255, 253, 247, 0.86)" },
+        "font-16": { seed: 46, stroke: "#9b651e", fill: "rgba(255, 246, 214, 0.66)" },
+        "font-17": { seed: 47, stroke: "#ad7427", fill: "rgba(255, 244, 205, 0.62)" },
+        "font-18": { seed: 48, stroke: "#8f6c3b", fill: "rgba(255, 253, 247, 0.82)" },
+        "font-19": { seed: 49, stroke: "#b98539", fill: "rgba(255, 250, 235, 0.76)" },
+        "font-20": { seed: 50, stroke: "#c89955", fill: "rgba(255, 253, 247, 0.86)" },
+        "font-21": { seed: 51, stroke: "#9b651e", fill: "rgba(255, 246, 214, 0.66)" },
+        "font-22": { seed: 52, stroke: "#ad7427", fill: "rgba(255, 244, 205, 0.62)" },
+        "font-23": { seed: 53, stroke: "#8f6c3b", fill: "rgba(255, 253, 247, 0.82)" },
+        "font-24": { seed: 54, stroke: "#b98539", fill: "rgba(255, 250, 235, 0.76)" },
+        note: { seed: 55, stroke: "#e0b96e", fill: "rgba(255, 244, 205, 0.62)" },
+      };
+
+      function drawRoughBox(element) {
+        const options = styles[element.dataset.rough];
+        const width = Math.round(element.offsetWidth);
+        const height = Math.round(element.offsetHeight);
+        if (!options || width <= 0 || height <= 0) return;
+
+        let svg = element.querySelector(":scope > svg");
+        if (!svg) {
+          svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+          svg.setAttribute("aria-hidden", "true");
+          svg.setAttribute("focusable", "false");
+          element.prepend(svg);
+        }
+
+        svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+        svg.replaceChildren();
+
+        const rc = rough.svg(svg);
+        const inset = 8;
+        const path = roundedRectPath(inset, inset, width - inset * 2, height - inset * 2, 26);
+
+        svg.appendChild(
+          rc.path(path, {
+            stroke: options.stroke,
+            strokeWidth: 2.3,
+            roughness: 1.55,
+            bowing: 1.35,
+            seed: options.seed,
+            fill: options.fill,
+            fillStyle: "solid",
+            preserveVertices: true,
+            disableMultiStroke: true,
+            disableMultiStrokeFill: true,
+          })
+        );
+      }
+
+      function drawAll() {
+        document.querySelectorAll("[data-rough]").forEach(drawRoughBox);
+      }
+
+      window.addEventListener("load", drawAll);
+      window.addEventListener("resize", drawAll);
+    </script>
+  </body>
+</html>

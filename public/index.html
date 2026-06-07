@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Meowney Book</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css?v=20260607-user-settings">
+  </head>
+  <body>
+    <section class="cover-start-screen hidden" id="startScreen" aria-label="Meowney start page">
+      <button class="cover-start-card" id="startOpenButton" type="button" aria-label="Open Meowney Book">
+        <img src="/assets/heading-decorations/meowney-login-cover-wide-draft-v8.png" alt="Meowney cover with a dog, a cat, and the words Where did money go?">
+        <span>Open Meowney Book</span>
+      </button>
+    </section>
+
+    <section class="auth-screen hidden" id="authScreen" aria-live="polite">
+      <div class="auth-stage login-cover-stage">
+        <div class="auth-cover-art" aria-hidden="true">
+          <img src="/assets/heading-decorations/meowney-login-cover-left.png" alt="">
+        </div>
+
+        <div class="auth-card">
+          <div class="brand auth-brand">
+            <div class="brand-mark" aria-hidden="true">
+              <img src="/assets/streamline/cannabis-for-cat.png" width="48" height="48" alt="">
+            </div>
+            <div>
+              <h1>MEOWNEY</h1>
+              <p class="auth-subtitle" id="authSubtitle" hidden></p>
+            </div>
+          </div>
+
+          <form class="auth-form" id="authForm">
+            <label>
+              <span>USERNAME</span>
+              <input id="authUsername" type="text" autocomplete="username" placeholder="YOUR NAME">
+            </label>
+            <label>
+              <span id="authLabel">PASSWORD</span>
+              <input id="authPassword" type="password" autocomplete="current-password" minlength="8" required placeholder="8 CHARACTERS MIN">
+            </label>
+            <label class="hidden" id="authConfirmGroup">
+              <span>REPEAT PASSWORD</span>
+              <input id="authPasswordConfirm" type="password" autocomplete="new-password" minlength="8" placeholder="TYPE IT AGAIN">
+            </label>
+            <button class="primary-button wide" id="authSubmitButton" type="submit">OPEN BOOK</button>
+            <p class="auth-message" id="authMessage"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <div class="app-shell hidden" id="appShell">
+      <aside class="sidebar" aria-label="主导航">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <img src="/assets/streamline/cannabis-for-cat.png" width="48" height="48" alt="">
+          </div>
+          <div>
+            <h1>Meowney Book</h1>
+          </div>
+        </div>
+        <nav class="nav" id="nav"></nav>
+        <div class="sidebar-footer">
+          <span id="saveStatus">已连接本地账本</span>
+          <button class="sidebar-logout" id="logoutButton" type="button">退出</button>
+          <a class="streamline-credit" href="https://streamlinehq.com" target="_blank" rel="noopener">Free icons from Streamline</a>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div class="topbar-title-group">
+            <div class="brand topbar-brand">
+              <div class="brand-mark" aria-hidden="true">
+                <img src="/assets/streamline/cannabis-for-cat.png" width="48" height="48" alt="">
+              </div>
+              <div>
+                <h1>Meowney Book</h1>
+              </div>
+            </div>
+            <div class="page-heading-row">
+              <h2 id="pageTitle">总览</h2>
+              <img class="overview-heading-doodle hidden" id="overviewHeadingDoodle" src="/assets/heading-decorations/overview-free-v2.png" alt="" aria-hidden="true">
+              <img class="transactions-heading-doodle hidden" id="transactionsHeadingDoodle" src="/assets/heading-decorations/ledger-dog-v1.png" alt="" aria-hidden="true">
+              <img class="fixed-heading-doodle hidden" id="fixedHeadingDoodle" src="/assets/heading-decorations/fixed-free-v2.png" alt="" aria-hidden="true">
+              <img class="report-heading-doodle hidden" id="reportHeadingDoodle" src="/assets/heading-decorations/report-ledger-dog-v2.png" alt="" aria-hidden="true">
+            </div>
+          </div>
+        </header>
+
+        <section class="month-end-banner hidden" id="monthEndBanner">
+          <div>
+            <strong>今晚适合看月报</strong>
+          </div>
+          <button class="primary-button" id="openReportButton" type="button">查看月报</button>
+        </section>
+
+        <section class="view active" id="view-dashboard" aria-labelledby="pageTitle">
+          <section class="ledger-cover" aria-label="账本封面">
+            <div class="ledger-cover-copy">
+              <span>Meowney Today</span>
+              <h3>家庭账本</h3>
+            </div>
+          </section>
+
+          <div class="summary-grid dashboard-overview">
+            <div class="metric metric-primary">
+              <div class="budget-top-line">
+                <button class="budget-display" id="budgetEditButton" type="button" title="编辑预算" aria-label="编辑每月预算">
+                  <span>本月预算</span>
+                  <strong id="budgetDisplayText">$0</strong>
+                  <img class="button-streamline-icon" src="/assets/streamline/edit-pencil-2.png" alt="" aria-hidden="true">
+                </button>
+                <form class="budget-editor hidden" id="budgetForm">
+                  <label for="monthlyBudgetInput">本月预算</label>
+                  <input id="monthlyBudgetInput" type="number" min="0" step="50" placeholder="0">
+                  <button class="icon-button compact-icon-button" id="saveBudgetButton" type="submit" title="保存预算" aria-label="保存每月预算">
+                    <img class="button-streamline-icon" src="/assets/streamline/form-edition-clipboard-check.png" alt="" aria-hidden="true">
+                  </button>
+                </form>
+                <button class="settings-button" id="settingsButton" type="button" title="设置" aria-label="设置账本成员" aria-expanded="false" aria-controls="settingsSheet">⚙</button>
+              </div>
+              <div class="total-line">
+                <span>本月总支出</span>
+                <strong id="totalExpense">$0</strong>
+              </div>
+              <div class="remaining-line">
+                <small>预算余量</small>
+                <strong id="budgetHint">$0</strong>
+              </div>
+              <div class="budget-progress-row">
+                <div class="budget-progress" aria-hidden="true">
+                  <span id="budgetProgressFill"></span>
+                </div>
+                <small class="budget-progress-percent hidden" id="budgetProgressPercent" aria-live="polite"></small>
+              </div>
+              <button class="dashboard-insight-button" id="dashboardInsightButton" type="button" aria-expanded="false" aria-controls="dashboardInsightPopover">
+                Meowney Note
+              </button>
+            </div>
+            <div class="dashboard-side-cards">
+              <section class="dashboard-mini-section" aria-labelledby="dashboardProjectTitle">
+                <div class="dashboard-mini-heading">
+                  <span id="dashboardProjectTitle">项目/旅行</span>
+                  <strong id="projectSummaryHint">暂无</strong>
+                </div>
+                <div class="dashboard-mini-grid dashboard-project-grid" id="projectSummaryList"></div>
+              </section>
+            </div>
+          </div>
+
+          <section class="dashboard-insight-popover hidden" id="dashboardInsightPopover" aria-labelledby="dashboardInsightTitle">
+            <div class="dashboard-insight-head">
+              <span>Meowney Note</span>
+              <button class="symbol-button" id="dashboardInsightCloseButton" type="button" aria-label="收起 Meowney Note">×</button>
+            </div>
+            <h3 id="dashboardInsightTitle">Meowney Note</h3>
+            <div class="dashboard-insight-copy" id="dashboardInsightCopy"></div>
+            <div class="dashboard-insight-actions">
+              <button class="ghost-button" id="dashboardInsightReportButton" type="button">看月报</button>
+              <button class="ghost-button" id="dashboardInsightCollapseButton" type="button">收起</button>
+            </div>
+          </section>
+
+          <section class="settings-sheet hidden" id="settingsSheet" aria-labelledby="settingsTitle">
+            <div class="settings-sheet-head">
+              <h3 id="settingsTitle">设置</h3>
+              <button class="symbol-button" id="settingsCloseButton" type="button" aria-label="关闭设置">×</button>
+            </div>
+            <form class="people-settings-form" id="peopleSettingsForm">
+              <div class="people-settings-list" id="peopleSettingsList"></div>
+              <button class="ghost-button add-person-button" id="addPersonButton" type="button">+ 成员</button>
+              <p class="settings-hint" id="peopleSettingsHint"></p>
+              <div class="settings-actions">
+                <button class="ghost-button" id="settingsCancelButton" type="button">取消</button>
+                <button class="icon-button pencil-action-button" type="submit" title="保存" aria-label="保存设置">
+                  <img class="button-label-icon" src="/assets/streamline/form-edition-clipboard-check.png" width="20" height="20" alt="" aria-hidden="true">
+                </button>
+              </div>
+            </form>
+          </section>
+
+          <div class="dashboard-layout">
+            <section class="panel dashboard-spend-panel">
+              <div class="panel-heading">
+                <div>
+                  <h3>生活开销</h3>
+                  <span id="monthLabel">$0</span>
+                </div>
+                <span class="pill" id="transactionCount">0 笔</span>
+              </div>
+              <div class="bar-list" id="categoryBars"></div>
+            </section>
+
+            <section class="panel dashboard-recent-panel">
+              <div class="panel-heading">
+                <div>
+                  <h3>最近流水</h3>
+                </div>
+              </div>
+              <div class="compact-list" id="recentTransactions"></div>
+            </section>
+          </div>
+
+        </section>
+
+        <section class="view" id="view-text" aria-labelledby="pageTitle">
+          <div class="entry-mode-tabs" role="tablist" aria-label="入账方式">
+            <button class="active" type="button" data-entry-view="text">文字</button>
+            <button type="button" data-entry-view="capture">小票</button>
+            <button type="button" data-entry-view="import">网购</button>
+          </div>
+          <section class="panel text-entry-panel">
+            <form class="text-expense-form" id="textExpenseForm">
+              <label class="text-expense-main">
+                内容
+                <div class="text-expense-input-wrap">
+                  <img class="entry-heading-doodle hidden" id="entryHeadingDoodle" src="/assets/heading-decorations/entry-v4.png" alt="" role="slider" tabindex="0" aria-label="左右拖动 Add Spend 小猫" aria-orientation="horizontal" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" draggable="false">
+                  <input id="textExpenseInput" required placeholder="Me 咖啡 6.5">
+                  <button class="icon-button voice-button" id="voiceExpenseButton" type="button" title="语音记账" aria-label="语音记账">
+                    <img src="/assets/streamline/microphone.png" width="24" height="24" alt="" aria-hidden="true">
+                  </button>
+                </div>
+              </label>
+              <div class="template-row" id="quickTemplateRow"></div>
+              <p class="voice-status" id="voiceStatus"></p>
+              <div class="form-grid">
+                <label>
+                  金额
+                  <input id="textExpenseAmount" type="number" min="0" step="0.01" required placeholder="0.00">
+                </label>
+                <label>
+                  分类
+                  <select id="textExpenseCategory"></select>
+                </label>
+                <label>
+                  付款人
+                  <select id="textExpensePayer"></select>
+                </label>
+                <label>
+                  日期
+                  <input id="textExpenseDate" type="date">
+                </label>
+                <label>
+                  旅行/项目
+                  <input id="textExpenseTripName" placeholder="可选">
+                </label>
+              </div>
+              <button class="icon-button pencil-action-button" type="submit" title="记一笔" aria-label="记一笔">
+                <img class="button-label-icon" src="/assets/streamline/edit-pencil-2.png" width="20" height="20" alt="" aria-hidden="true">
+              </button>
+            </form>
+          </section>
+          <section class="panel entry-pending-card">
+            <div class="panel-heading entry-pending-heading">
+              <div>
+                <h3>待确认</h3>
+                <span class="entry-pending-count">0 张</span>
+              </div>
+            </div>
+            <div class="card-list entry-pending-list"></div>
+          </section>
+        </section>
+
+        <section class="view" id="view-capture" aria-labelledby="pageTitle">
+          <div class="entry-mode-tabs" role="tablist" aria-label="入账方式">
+            <button type="button" data-entry-view="text">文字</button>
+            <button class="active" type="button" data-entry-view="capture">小票</button>
+            <button type="button" data-entry-view="import">网购</button>
+          </div>
+          <section class="panel capture-intake-panel entry-paper-panel">
+            <div class="panel-heading status-only">
+              <span class="pill hidden" id="confidenceBadge"></span>
+            </div>
+
+            <div class="capture-source-bar">
+              <label class="capture-source-field capture-project-field">
+                旅行/项目
+                <input id="receiptTripName" placeholder="可选">
+              </label>
+            </div>
+
+            <div class="capture-mode-tabs" role="tablist" aria-label="小票方式">
+              <button class="active" id="receiptUploadTab" type="button" data-capture-mode="upload">上传图片</button>
+              <button id="receiptTextTab" type="button" data-capture-mode="text">补充文字</button>
+            </div>
+
+            <div class="capture-mode-panel" id="receiptUploadPanel">
+              <label class="capture-file-row" for="receiptFile">
+                <input id="receiptFile" type="file" accept="image/*,application/pdf">
+                <span class="capture-file-plus" aria-hidden="true">
+                  <img src="/assets/streamline/add-sign-bold.png" alt="">
+                </span>
+                <span>图片/PDF</span>
+              </label>
+
+              <div class="capture-file-preview hidden" id="previewWrap">
+                <img id="imagePreview" alt="上传预览">
+                <div>
+                  <span>已选择</span>
+                  <strong id="fileName">未选择文件</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="capture-mode-panel hidden" id="receiptTextPanel">
+              <label>
+                文字
+                <textarea id="receiptText" rows="7" placeholder="粘贴文字"></textarea>
+              </label>
+            </div>
+
+            <button class="recognize-button" id="parseButton" type="button" title="识别" aria-label="识别">
+              <img src="/assets/streamline/transform-direct-select.png" width="30" height="30" alt="" aria-hidden="true">
+            </button>
+          </section>
+
+          <section class="panel parse-panel">
+            <div class="empty-state quiet-empty" id="parseEmpty"></div>
+            <div class="parse-result hidden" id="parseResult"></div>
+          </section>
+          <section class="panel entry-pending-card">
+            <div class="panel-heading entry-pending-heading">
+              <div>
+                <h3>待确认</h3>
+                <span class="entry-pending-count">0 张</span>
+              </div>
+            </div>
+            <div class="card-list entry-pending-list"></div>
+          </section>
+        </section>
+
+        <section class="view" id="view-import" aria-labelledby="pageTitle">
+          <div class="entry-mode-tabs" role="tablist" aria-label="入账方式">
+            <button type="button" data-entry-view="text">文字</button>
+            <button type="button" data-entry-view="capture">小票</button>
+            <button class="active" type="button" data-entry-view="import">网购</button>
+          </div>
+          <section class="panel import-intake-panel entry-paper-panel">
+            <div class="panel-heading status-only">
+              <span class="pill hidden" id="importConfidenceBadge"></span>
+            </div>
+
+            <div class="import-source-bar">
+              <label>
+                付款人
+                <select id="importPayer"></select>
+              </label>
+              <label>
+                平台
+                <select id="importPlatform">
+                  <option>Amazon</option>
+                  <option>Whole Foods</option>
+                  <option>Amazon Fresh</option>
+                  <option>Target</option>
+                  <option>Costco</option>
+                  <option>Instacart</option>
+                  <option>Uber Eats</option>
+                  <option>DoorDash</option>
+                  <option>CVS</option>
+                  <option>Walgreens</option>
+                  <option>Rite Aid</option>
+                  <option>Sephora</option>
+                  <option>Nordstrom</option>
+                  <option>其他</option>
+                </select>
+              </label>
+              <input class="hidden" id="importCustomPlatform" placeholder="填写平台名">
+              <label>
+                旅行/项目
+                <input id="importTripName" placeholder="可选">
+              </label>
+            </div>
+
+            <div class="import-mode-tabs" role="tablist" aria-label="网购方式">
+              <button class="active" type="button" data-import-mode="paste">粘贴文本</button>
+              <button type="button" data-import-mode="upload">上传文件</button>
+            </div>
+
+            <div class="import-mode-panel" id="importPastePanel">
+              <label class="import-textarea-label" for="importText">内容</label>
+              <textarea id="importText" rows="7" placeholder="粘贴订单内容"></textarea>
+            </div>
+
+            <div class="import-mode-panel hidden" id="importUploadPanel">
+              <label class="import-file-row" for="importFile">
+                <input id="importFile" type="file" accept=".txt,.csv,.eml,.html,.json,image/*,application/pdf">
+                <span class="import-file-plus" aria-hidden="true">
+                  <img src="/assets/streamline/add-sign-bold.png" alt="">
+                </span>
+                <span>文件/截图</span>
+              </label>
+
+              <div class="import-file-preview hidden" id="importPreviewWrap">
+                <span>已选择</span>
+                <strong id="importFileName">未选择文件</strong>
+              </div>
+            </div>
+
+            <button class="recognize-button" id="parseImportButton" type="button" title="识别" aria-label="识别">
+              <img src="/assets/streamline/transform-direct-select.png" width="30" height="30" alt="" aria-hidden="true">
+            </button>
+          </section>
+
+          <section class="panel parse-panel">
+            <div class="empty-state quiet-empty" id="importParseEmpty"></div>
+            <div class="parse-result hidden" id="importParseResult"></div>
+          </section>
+          <section class="panel entry-pending-card">
+            <div class="panel-heading entry-pending-heading">
+              <div>
+                <h3>待确认</h3>
+                <span class="entry-pending-count">0 张</span>
+              </div>
+            </div>
+            <div class="card-list entry-pending-list"></div>
+          </section>
+        </section>
+
+        <section class="view" id="view-transactions" aria-labelledby="pageTitle">
+          <section class="panel">
+            <div class="panel-heading page-summary-heading">
+              <div>
+                <span class="page-summary-number" id="transactionListTotal">0 笔 · $0</span>
+              </div>
+            </div>
+            <div class="transaction-filters">
+              <input id="transactionSearch" placeholder="搜索商家、类别、项目">
+              <select id="monthFilter"></select>
+              <select id="categoryFilter"></select>
+              <select id="payerFilter">
+                <option value="all">全部付款人</option>
+              </select>
+              <select id="scenarioFilter">
+                <option value="all">全部场景</option>
+                <option value="日常">日常</option>
+                <option value="网购">网购</option>
+                <option value="旅行">旅行</option>
+                <option value="固定账单">固定账单</option>
+              </select>
+              <select id="projectFilter">
+                <option value="all">全部项目</option>
+              </select>
+            </div>
+            <div class="transaction-ledger-layout">
+              <div class="transaction-list" id="transactionList"></div>
+              <aside class="transaction-detail-paper" id="transactionDetailPaper" aria-live="polite"></aside>
+            </div>
+          </section>
+        </section>
+
+        <section class="view" id="view-recurring" aria-labelledby="pageTitle">
+          <div class="recurring-layout">
+            <section class="panel recurring-list-panel">
+              <div class="panel-heading page-summary-heading">
+                <div>
+                  <span class="page-summary-number" id="recurringTotal">$0 / 月</span>
+                </div>
+              </div>
+              <div class="recurring-list" id="recurringList"></div>
+            </section>
+
+            <section class="panel recurring-form-panel">
+              <div class="panel-heading">
+                <div>
+                  <h3>新增项目</h3>
+                </div>
+              </div>
+              <form class="recurring-form" id="recurringForm">
+                <div class="form-grid">
+                  <label>
+                    名称
+                    <input name="name" required placeholder="例如 Netflix">
+                  </label>
+                  <label>
+                    分类
+                    <select name="category" required></select>
+                  </label>
+                  <label>
+                    月金额
+                    <input name="amount" required type="number" min="0" step="0.01" placeholder="0.00">
+                  </label>
+                  <label>
+                    扣款日
+                    <input name="dueDay" required type="number" min="1" max="31" value="1">
+                  </label>
+                  <label>
+                    付款人
+                    <select name="payer"></select>
+                  </label>
+                  <label>
+                    必要性
+                    <select name="necessity">
+                      <option>必须</option>
+                      <option>可优化</option>
+                      <option>非必要</option>
+                    </select>
+                  </label>
+                </div>
+                <button class="icon-button pencil-action-button" type="submit" title="添加固定支出" aria-label="添加固定支出">
+                  <img class="button-label-icon" src="/assets/streamline/edit-pencil-2.png" width="20" height="20" alt="" aria-hidden="true">
+                </button>
+              </form>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="view-report" aria-labelledby="pageTitle">
+          <section class="panel report-hero">
+            <div class="report-summary-grid">
+              <div class="metric">
+                <span>本月总支出 <em class="report-month-inline" id="reportMonth">本月</em></span>
+                <strong id="reportTotalExpense">$0</strong>
+                <small id="reportHistoryDelta">暂无历史平均</small>
+              </div>
+              <div class="metric">
+                <span>历史月均</span>
+                <strong id="reportAverageExpense">$0</strong>
+                <small id="reportAverageHint">暂无历史平均</small>
+              </div>
+              <div class="metric">
+                <span>最大类别</span>
+                <strong id="reportTopCategory">暂无</strong>
+                <small id="reportTopCategoryAmount">$0</small>
+              </div>
+              <div class="metric hidden" id="reportFixedSpendStrip">
+                <span>固定支出</span>
+                <strong id="reportFixedSpendTotal">$0</strong>
+              </div>
+            </div>
+          </section>
+
+          <div class="report-layout report-visual-grid">
+            <section class="panel report-share-panel">
+              <div class="panel-heading">
+                <div>
+                  <h3>类别占比</h3>
+                  <span id="categoryShareHint">$0</span>
+                </div>
+              </div>
+              <div id="categoryShareChart"></div>
+            </section>
+            <section class="panel report-week-panel">
+              <div class="panel-heading">
+                <div>
+                  <h3>周节奏</h3>
+                </div>
+              </div>
+              <div class="weekly-chart" id="weeklySpendChart"></div>
+            </section>
+          </div>
+
+          <div class="report-layout report-detail-grid">
+            <section class="panel report-history-panel">
+              <div class="panel-heading">
+                <div>
+                  <h3>历史对比</h3>
+                </div>
+              </div>
+              <div class="history-comparison" id="historyComparison"></div>
+            </section>
+            <section class="panel monthly-report-panel">
+              <div class="panel-heading">
+                <div>
+                  <h3>月报摘要</h3>
+                </div>
+              </div>
+              <div class="monthly-report" id="monthlyReport"></div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <template id="itemRowTemplate">
+      <div class="item-row">
+        <input data-field="name" placeholder="商品">
+        <input data-field="quantity" placeholder="数量">
+        <input data-field="amount" type="number" min="0" step="0.01" placeholder="0.00">
+        <select data-field="category"></select>
+        <input data-field="subcategory" placeholder="细分">
+        <select data-field="necessity">
+          <option>必须</option>
+          <option>可优化</option>
+          <option>非必要</option>
+        </select>
+        <select data-field="owner"></select>
+        <button class="icon-button remove-item" type="button" aria-label="删除明细">×</button>
+      </div>
+    </template>
+
+    <script src="/app.js?v=20260607-user-settings"></script>
+    <script src="/sketch-select.js?v=20260606-sketch-select-2"></script>
+    <script src="/rough-ui.js?v=20260607-login-single-rough-line"></script>
+  </body>
+</html>
